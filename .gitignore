@@ -18,6 +18,10 @@ __pycache__/
 data/raw/*.csv
 
 # Exported model artifacts
+
 models/*.joblib
 models/*.pkl
 models/*.pickle
+
+# Keep the selected Ridge model in Git
+!models/ridge_regression_alpha100.joblib
