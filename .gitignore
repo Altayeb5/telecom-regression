@@ -1,0 +1,23 @@
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Python environments and tooling
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local data downloads
+data/raw/*.csv
+
+# Exported model artifacts
+models/*.joblib
+models/*.pkl
+models/*.pickle
