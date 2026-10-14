@@ -259,7 +259,7 @@ The workflow is separated into two notebooks:
 
 ## Streamlit Deployment
 
-The project includes a local Streamlit application in `app.py` for generating customer revenue estimates with the selected Ridge Regression pipeline (`alpha=100`). The app loads `models/ridge_regression_alpha100.joblib` with Joblib and predicts `Aggregate_Total_Rev`.
+The project includes a Streamlit application in `app.py` for generating customer revenue estimates with the selected Ridge Regression pipeline (`alpha=100`). The app loads `models/ridge_regression_alpha100.joblib` with Joblib and predicts `Aggregate_Total_Rev`.
 
 The interface accepts the eight model features:
 
@@ -274,7 +274,7 @@ The interface accepts the eight model features:
 
 The saved pipeline contains the fitted preprocessing steps as well as the Ridge estimator, so the app can pass raw numerical and categorical inputs directly to the trained pipeline. It displays the predicted revenue together with the model's held-out test metrics—R² **0.198** and MAE **487.13**—and warns that an individual prediction is an estimate that may differ substantially from actual customer revenue.
 
-The application is currently intended for local use only; no public Streamlit deployment is claimed.
+The application is publicly available on Streamlit: [Open the Telecom Revenue Prediction app](https://altayeb5-telecom-regression-app-r3kbex.streamlit.app/).
 
 ### Local Deployment Check
 
@@ -311,7 +311,7 @@ As a local input/output check, the app was tested with one real SATO 2015 observ
 
 ## Repository Hygiene
 
-- `.gitignore` excludes OS metadata, virtual environments, Python/Jupyter generated files, locally downloaded CSV files, and generic exported model formats. It explicitly retains `models/ridge_regression_alpha100.joblib` for the local Streamlit application.
+- `.gitignore` excludes OS metadata, virtual environments, Python/Jupyter generated files, locally downloaded CSV files, and generic exported model formats. It explicitly retains `models/ridge_regression_alpha100.joblib` for the Streamlit application.
 - `requirements.txt` lists the notebook and application dependencies, including Streamlit and Joblib.
 - The raw Kaggle CSV remains locally available for notebook execution but is ignored by Git. Obtain it from Kaggle or with `load_csv.ipynb` after cloning.
 - `models/ridge_regression_alpha100.joblib` is the exported CV-selected Ridge pipeline used by `app.py`.
