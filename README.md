@@ -8,9 +8,9 @@ The selected model is a Ridge regression with `alpha=100`, selected using five-f
 
 ## Business Problem
 
-For a telecom operator such as Zain, an estimate of customer revenue could support customer-value assessment, revenue planning, segmentation, and prioritization of high-value customers. Large gaps between expected and actual revenue could also flag customers worth further investigation.
+For a telecom operator, an estimate of customer revenue could support customer-value assessment, revenue planning, segmentation, and prioritization of high-value customers. Large gaps between expected and actual revenue could also flag customers worth further investigation.
 
-These are potential applications only: the SATO 2015 dataset is not presented as Zain customer data, and this project does not claim production deployment.
+These are potential applications only: the dataset is not presented as data from a specific telecom operator, and this project does not claim production deployment.
 
 ## Dataset
 
@@ -216,6 +216,7 @@ The current analysis is exploratory and should not be considered a deployed deci
 
 ```text
 telecom-regression/
+├── app.py
 ├── data/
 │   ├── processed/
 │   │   └── telecom_regression_model_data.csv
@@ -253,6 +254,31 @@ The workflow is separated into two notebooks:
 - Matplotlib and Seaborn
 - Jupyter Notebook
 - `kagglehub` (dataset-acquisition helper notebook)
+- Streamlit (local prediction application)
+- Joblib (saved model loading)
+
+## Streamlit Deployment
+
+The project includes a local Streamlit application in `app.py` for generating customer revenue estimates with the selected Ridge Regression pipeline (`alpha=100`). The app loads `models/ridge_regression_alpha100.joblib` with Joblib and predicts `Aggregate_Total_Rev`.
+
+The interface accepts the eight model features:
+
+- `network_age`
+- `Aggregate_Data_Vol`
+- `Aggregate_Calls`
+- `Aggregate_complaint_count`
+- `aug_user_type`
+- `sep_user_type`
+- `aug_fav_a`
+- `sep_fav_a`
+
+The saved pipeline contains the fitted preprocessing steps as well as the Ridge estimator, so the app can pass raw numerical and categorical inputs directly to the trained pipeline. It displays the predicted revenue together with the model's held-out test metrics—R² **0.198** and MAE **487.13**—and warns that an individual prediction is an estimate that may differ substantially from actual customer revenue.
+
+The application is currently intended for local use only; no public Streamlit deployment is claimed.
+
+### Local Deployment Check
+
+As a local input/output check, the app was tested with one real SATO 2015 observation. It returned a prediction of **1053.24** for an actual `Aggregate_Total_Rev` of **1592.72**. This is a single illustrative deployment test, not a model-performance metric; the held-out test metrics reported above remain the appropriate performance summary.
 
 ## How to Run
 
@@ -277,12 +303,18 @@ The workflow is separated into two notebooks:
    jupyter notebook
    ```
 
+5. To run the local prediction application, ensure that `models/ridge_regression_alpha100.joblib` is present and run:
+
+   ```bash
+   streamlit run app.py
+   ```
+
 ## Repository Hygiene
 
-- `.gitignore` excludes OS metadata, virtual environments, Python/Jupyter generated files, locally downloaded CSV files, and common exported model formats.
-- `requirements.txt` lists the packages imported by the notebooks.
+- `.gitignore` excludes OS metadata, virtual environments, Python/Jupyter generated files, locally downloaded CSV files, and generic exported model formats. It explicitly retains `models/ridge_regression_alpha100.joblib` for the local Streamlit application.
+- `requirements.txt` lists the notebook and application dependencies, including Streamlit and Joblib.
 - The raw Kaggle CSV remains locally available for notebook execution but is ignored by Git. Obtain it from Kaggle or with `load_csv.ipynb` after cloning.
-- `models/ridge_regression_alpha100.joblib` is the exported CV-selected Ridge pipeline. The current `.gitignore` excludes generic Joblib model exports, so decide explicitly whether this small, documented artifact should be versioned before publishing the repository.
+- `models/ridge_regression_alpha100.joblib` is the exported CV-selected Ridge pipeline used by `app.py`.
 
 ## Author
 
